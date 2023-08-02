@@ -1,5 +1,14 @@
+
+
 function Home() {
-  return <h1>OI NATHAN, EU AMO MUITO VOCÊ MEU FILHO</h1>;
+  return (
+    <div className="container">
+      
+      <h1>Em breve mais um pedacinho da internet sairá do forno.</h1>
+      <a href="#" className="button">Aguarde.....</a>
+    </div>
+  );
+  
 }
 
 export default Home;
