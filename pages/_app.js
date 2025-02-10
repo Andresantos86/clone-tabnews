@@ -1,5 +1,5 @@
-import "../src/estilo/style.css"
+import "../src/estilo/style.css";
 
-export default function MyApp({Component, pageProps}){
-  return<Component {...pageProps}/>
+export default function MyApp({ Component, pageProps }) {
+  return <Component {...pageProps} />;
 }
