@@ -1,6 +1,5 @@
 import database from "infra/database";
 import migrationRunner from "node-pg-migrate";
-import { error } from "node:console";
 import { join } from "node:path";
 
 export default async function migrations(request, response) {
@@ -40,8 +39,6 @@ export default async function migrations(request, response) {
       }
       return response.status(200).json(migratedMigrations);
     }
-  } catch (error) {
-    throw error;
   } finally {
     await dbClient.end();
   }
