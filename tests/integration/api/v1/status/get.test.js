@@ -1,5 +1,5 @@
 import orchestrator from "tests/orchestrator.js";
-// vem do jest
+
 beforeAll(async () => {
   await orchestrator.waitForAllServices();
 });
