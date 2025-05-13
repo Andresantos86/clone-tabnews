@@ -1,5 +1,7 @@
 import orchestrator from "tests/orchestrator.js";
 import { version as uuidVersion } from "uuid";
+import user from "models/user.js";
+import password from "models/password.js";
 
 beforeAll(async () => {
   await orchestrator.waitForAllServices();
@@ -28,13 +30,28 @@ describe("POST to /api/v1/users", () => {
         id: responseBody.id,
         username: "andresantos",
         email: "teste@teste.com",
-        password: "abc123",
+        password: responseBody.password,
         created_at: responseBody.created_at,
         updated_at: responseBody.updated_at,
       });
       expect(uuidVersion(responseBody.id)).toBe(4);
       expect(Date.parse(responseBody.created_at)).not.toBeNaN();
       expect(Date.parse(responseBody.updated_at)).not.toBeNaN();
+
+      const userInDatabese = await user.findOneByUsername("andresantos");
+      const corretPasswordMatch = await password.compare(
+        "abc123",
+        userInDatabese.password,
+      );
+
+      expect(corretPasswordMatch).toBe(true);
+
+      const inCorretPasswordMatch = await password.compare(
+        "abc123456",
+        userInDatabese.password,
+      );
+
+      expect(inCorretPasswordMatch).toBe(false);
     });
 
     test("With duplicated email", async () => {
@@ -69,7 +86,7 @@ describe("POST to /api/v1/users", () => {
       expect(responseBody2).toEqual({
         name: "ValidationError",
         message: "O email informado já está sendo utilizado.",
-        action: "Utilize outro email para realizar o cadastro.",
+        action: "Utilize outro email para realizar esta operação.",
         status_code: 400,
       });
     });
@@ -106,7 +123,7 @@ describe("POST to /api/v1/users", () => {
       expect(responseBody2).toEqual({
         name: "ValidationError",
         message: "O username informado já está sendo utilizado.",
-        action: "Utilize outro username para realizar o cadastro.",
+        action: "Utilize outro username para realizar esta operação.",
         status_code: 400,
       });
     });
