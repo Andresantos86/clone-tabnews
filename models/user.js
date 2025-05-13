@@ -88,11 +88,9 @@ async function update(username, userInputValues) {
 
   const userWithNewValues = { ...userFound, ...userInputValues };
   const updatedUser = await runUpdateQuery(userWithNewValues);
-  console.log("update", updatedUser);
   return updatedUser;
 
   async function runUpdateQuery(userNewValues) {
-    console.log("chamou", userWithNewValues);
     const results = await database.query({
       text: `
         UPDATE
